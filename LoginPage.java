@@ -19,7 +19,7 @@ public class LoginPage {
     @FindBy(css="#j_username")
     private WebElement emailAddress;
 
-    @FindBy(css="#j_username")
+    @FindBy(css="#j_password")
     private WebElement password;
 
     @FindBy(css="button[id*='button.login.login']")
