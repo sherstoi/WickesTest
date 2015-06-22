@@ -29,6 +29,18 @@ public class LoginPage {
         this.webDriver = webDriver;
         PageFactory.initElements(webDriver, this);
     }
+    
+    public boolean isEmailPresent() {
+        return emailAddress.isDisplayed();
+    }
+
+    public boolean isPasswordPresent() {
+        return password.isDisplayed();
+    }
+
+    public boolean isSubmitButtonPresent() {
+        return submitButton.isDisplayed();
+    }    
 
     // open page
     public void open() {
