@@ -29,18 +29,14 @@ public class TestWickes {
 
     @Test
     public void testWickesSite() {
-        webDriver.get(MainPage.URL);
         // Create Main Page object
         MainPage mainPage = new MainPage(webDriver);
-        // Check that mainPage is not null or we could get NPE in other cases
-        Assert.assertNotNull(mainPage);
+        mainPage.open();
+        Assert.assertTrue(mainPage.isPageOpened());
         // Move to login page
-        LoginPage loginPage = mainPage.forwardToLoginPage();
+        LoginPage loginPage = new LoginPage(webDriver);
         // Check that loginPage is not null or we could get NPE in other cases
-        Assert.assertNotNull(loginPage);
-        // Check that web elements on login page are exists
-        Assert.assertNotNull(loginPage.getEmailAddress());
-        Assert.assertNotNull(loginPage.getPassword());
-        Assert.assertNotNull(loginPage.getSubmitButton());
+        loginPage.open();
+        Assert.assertTrue(loginPage.isPageOpened());
     }
 }
