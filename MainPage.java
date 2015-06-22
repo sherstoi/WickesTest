@@ -1,9 +1,8 @@
 package com.wickes.Pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 /**
@@ -17,23 +16,13 @@ public class MainPage {
     // reference to web driver
     private WebDriver webDriver;
     // reference to "login/register" link element
+    @FindBy(css="#header_login_link")
     private WebElement linkLoginElement;
 
     // constructor
     public MainPage(WebDriver webDriver) {
         this.webDriver = webDriver;
-        // ??? I call PatternFactory.initElements from constructor, not sure that it's a good idea
         PageFactory.initElements(webDriver, this);
-
-        // check that we are on right page
-        // ??? I'm not sure that it's good idea to throw exception in constructor
-        if (!getPageURL().equals(MainPage.URL)) {
-            System.out.println("Current URL is " + getPageURL());
-            System.out.println("But URL should be " + MainPage.URL);
-            throw new NoSuchWindowException("This is not MainPage");
-        }
-        // before take element we should use PageFactory.initElements
-        this.linkLoginElement = webDriver.findElement(By.cssSelector("#header_login_link"));
     }
 
     // get page title
@@ -41,21 +30,19 @@ public class MainPage {
         return webDriver.getCurrentUrl();
     }
 
-    // get login/register element
-    public WebElement getLinkLoginElement() {
-        return linkLoginElement;
+    // open page
+    public void open() {
+        webDriver.get(MainPage.URL);
     }
 
-    /**
-     * Moving to Login page from Main page
-     * @return Login page object
-     */
-    public LoginPage forwardToLoginPage() {
-        linkLoginElement.click();
-        // prepare control element from login page
-        LoginPage loginPage = new LoginPage(webDriver);
-        PageFactory.initElements(webDriver, loginPage);
-        // return login page object
-        return loginPage;
+    // check whether page opened
+    public boolean isPageOpened() {
+        if (!getPageURL().equals(MainPage.URL)) {
+            System.out.println("Current URL is " + getPageURL());
+            System.out.println("But URL should be " + MainPage.URL);
+
+            return false;
+        }
+        return true;
     }
 }
