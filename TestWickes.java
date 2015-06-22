@@ -38,5 +38,8 @@ public class TestWickes {
         // Check that loginPage is not null or we could get NPE in other cases
         loginPage.open();
         Assert.assertTrue(loginPage.isPageOpened());
+        Assert.assertTrue(loginPage.isEmailPresent());
+        Assert.assertTrue(loginPage.isPasswordPresent());
+        Assert.assertTrue(loginPage.isSubmitButtonPresent());
     }
 }
