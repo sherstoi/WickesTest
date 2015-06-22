@@ -1,10 +1,9 @@
 package com.wickes.Pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import java.util.List;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 /**
  * Applying <Page Object> pattern to Login page.
@@ -17,39 +16,37 @@ public class LoginPage {
 
     private WebDriver webDriver;
 
+    @FindBy(css="#j_username")
     private WebElement emailAddress;
 
+    @FindBy(css="#j_username")
     private WebElement password;
 
+    @FindBy(css="button[id*='button.login.login']")
     private WebElement submitButton;
 
     public LoginPage(WebDriver webDriver) {
         this.webDriver = webDriver;
+        PageFactory.initElements(webDriver, this);
+    }
 
-        // check that we are on right page
-        // ??? I'm not sure that it's good idea to throw exception in constructor
-        if (!getPageURL().equals(LoginPage.URL)) {
-            System.out.println("Current URL is " + getPageURL());
-            System.out.println("But URL should be " + LoginPage.URL);
-            throw new NoSuchWindowException("This is not LoginPage");
-        }
-        this.emailAddress = webDriver.findElement(By.cssSelector("#j_username"));
-        this.password = webDriver.findElement(By.cssSelector("#j_password"));
-        this.submitButton = webDriver.findElement(By.cssSelector("button[id*='button.login.login']"));
-        // why I got exception when using this string: By.cssSelector("#button.login.login")???
+    // open page
+    public void open() {
+        webDriver.get(LoginPage.URL);
     }
 
     public String getPageURL() {
         return webDriver.getCurrentUrl();
     }
 
-    public WebElement getEmailAddress() {
-        return emailAddress;
-    }
+    // check whether page opened
+    public boolean isPageOpened() {
+        if (!getPageURL().equals(LoginPage.URL)) {
+            System.out.println("Current URL is " + getPageURL());
+            System.out.println("But URL should be " + LoginPage.URL);
 
-    public WebElement getPassword() {
-        return password;
+            return false;
+        }
+        return true;
     }
-
-    public WebElement getSubmitButton() { return submitButton;}
 }
